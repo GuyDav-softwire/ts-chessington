@@ -13,30 +13,22 @@ export default class Pawn extends Piece {
         const currentPosition = board.findPiece(this);
         const oldRow = currentPosition.row;
         const oldCol = currentPosition.col;
-        
-        this.pawnForward(oldRow, oldCol, currentPosition, availableMoves, board);
-        availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
 
-
-        if (this.player == Player.WHITE) {        
-            this.pawnCapture(oldRow+1, oldCol-1, availableMoves, board);
-            this.pawnCapture(oldRow+1, oldCol+1, availableMoves, board);        
-        }
-        else {
-            this.pawnCapture(oldRow-1, oldCol-1, availableMoves, board);
-            this.pawnCapture(oldRow-1, oldCol+1, availableMoves, board);
-        }
-
-        return availableMoves;
+        return this.pawnMove(oldRow, oldCol, currentPosition, availableMoves, board);
     }
 
-    public pawnForward(oldRow: number, oldCol: number, currentPosition: Square, availableMoves: Array<Square>, board: Board) {
+    public pawnMove(oldRow: number, oldCol: number, currentPosition: Square, availableMoves: Array<Square>, board: Board) {
         const step = this.player == Player.WHITE ? 1 : -1;
         const startingRow = this.player == Player.WHITE ? 1 : Piece.boardSize-2;
         this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+1*step, oldCol, currentPosition, board);
         if (oldRow == startingRow && !board.getPiece(new Square(oldRow+1*step, oldCol))) {
             this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+2*step, oldCol, currentPosition, board);
         }
+        
+        availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
+        this.pawnCapture(oldRow+1*step, oldCol-1, availableMoves, board);
+        this.pawnCapture(oldRow+1*step, oldCol+1, availableMoves, board);     
+        return availableMoves;
     }
 
     public pawnCapture(newRow: number, newCol: number, availableMoves: Array<Square>, board: Board) {
