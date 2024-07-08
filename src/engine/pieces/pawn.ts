@@ -27,7 +27,7 @@ export default class Pawn extends Piece {
         
         availableMoves = availableMoves.filter(pos => !board.getPiece(pos));
         this.pawnCapture(oldRow+1*step, oldCol-1, availableMoves, board);
-        this.pawnCapture(oldRow+1*step, oldCol+1, availableMoves, board);     
+        this.pawnCapture(oldRow+1*step, oldCol+1, availableMoves, board);
         return availableMoves;
     }
 
@@ -36,7 +36,7 @@ export default class Pawn extends Piece {
         if (diagonalPos.inBoundsCheck()){ 
             let diagonalPiece = board.getPiece(diagonalPos);
             if(diagonalPiece && diagonalPiece.player != this.player && !diagonalPiece.isKing){
-                availableMoves.push(diagonalPos)
+                availableMoves.push(diagonalPos);
             }
         }  
     }

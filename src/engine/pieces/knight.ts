@@ -22,7 +22,6 @@ export default class Knight extends Piece {
                 this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+longSteps[index2], oldCol+shortSteps[index1], currentPosition, board);
             }
         }
-
         return availableMoves;
     }
 }

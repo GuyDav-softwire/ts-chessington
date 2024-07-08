@@ -4,6 +4,8 @@ import Board from '../board';
 import Square from '../square';
 
 export default class King extends Piece {
+    public inCheck: Boolean = false;
+
     public constructor(player: Player) {
         super(player);
         this.isKing = true;
@@ -20,7 +22,6 @@ export default class King extends Piece {
                 this.addAvailableMoveAndCheckContinue(availableMoves, oldRow+index1, oldCol+index2, currentPosition, board);
             }
         }
-
         return availableMoves;
     }
 }

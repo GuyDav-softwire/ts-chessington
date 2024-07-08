@@ -20,15 +20,14 @@ export default class Piece {
 
     public addAvailableMoveAndCheckContinue(availableMoves: Array<Square>, newRow: number, newCol: number, currentPosition: Square, board: Board){
         const newPos = new Square(newRow, newCol);
-        const newPosInBound = newPos.inBoundsCheck();
-        if(!currentPosition.equals(newPos) && newPosInBound){
-            let pieceAtNewPos = board.getPiece(newPos);
-            if(this.checkIfCanMove(pieceAtNewPos)){
-                availableMoves.push(newPos);
-            }
-            return pieceAtNewPos == undefined;
+        if (!newPos.inBoundsCheck()){
+            return false;
         }
-        return newPosInBound;
+        const pieceAtNewPos = board.getPiece(newPos);
+        if(this.checkIfCanMove(pieceAtNewPos)){
+            availableMoves.push(newPos);
+        }
+        return pieceAtNewPos == undefined;
     }
 
     public moveTo(board: Board, newSquare: Square) {
@@ -39,7 +38,7 @@ export default class Piece {
     public pathCheck(rowStep: number, colStep: number, availableMoves: Array<Square>, currentPosition: Square, board: Board){
         const oldRow = currentPosition.row;
         const oldCol = currentPosition.col;
-        for (let step = 0; step < Piece.boardSize; step++) {
+        for (let step = 1; step < Piece.boardSize; step++) {
             const newRow = oldRow + step * rowStep;
             const newCol = oldCol + step * colStep;
 
@@ -47,7 +46,6 @@ export default class Piece {
                 break;
             }
         }
-
     }
 
     public checkIfCanMove(pieceAtNewPos:Piece|undefined){
